@@ -1,0 +1,18 @@
+1. ETag : W/"0f781ef23148a4acadd13cc5364c15cd050e195c6a3a820a8b146b158204ef40"
+Cache-Control : public, max-age=60, s-maxage=60
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 24
+x-ratelimit-used: 36
+x-ratelimit-resource: core
+x-ratelimit-reset: 1794214581
+Avec If-None_match ce sont les mêmes valeurs
+
+2.{
+  "message": "Not Found",
+  "documentation_url": "https://docs.github.com/rest/repos/repos#get-a-repository",
+  "status": "404"
+}
+
+3. Seul get est autorisé
+
+4. Ca marche, on peut mettre n'importe quel code

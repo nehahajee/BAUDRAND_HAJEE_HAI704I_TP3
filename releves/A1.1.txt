@@ -1,0 +1,68 @@
+1) Ressources :
+Les offres : Les offres sont publiés par les hôtels, repris par les agences
+Les réservations : le produit final généré par un client, doivent être accessibles par les deux APIs car doivent être retrouvé après création
+La photo : Chaque offre a une image de la chambre, une ressource a part entière pour limiter la taille des requêtes d'une offre et gagner en temps
+
+Hotels et Agences ne sont plus des ressources mais de API à part entière.
+Plus besoin de les nommer, ce sont des processus pas des ressources.
+Le comparateur n'as pas d'API car l'utilisateur est le client dans la CLI
+
+2) URI :
+2 APIs
+http://localhost:8101/api/v1 api hotel
+http://localhost:8201/api/v1 api agence
+
+
+Hotel : 
+/offers : toutes les offres, query parameters possibles (villes, dates, nombre de personnes)
+/offers/O-1001 : une offre
+/offers/O-1001/picture : la photo d'une offre 
+/bookings : les réservations
+/bookings/B-1001 : une réservation
+
+Agence : 
+/offers : toutes les offres, Query parameters pour filtrer un hotel en particulier par exemple
+/offers/H-1001-O-1001 : une offre d'un hotel
+/offers/H-1001-O-1001/picture : la photo d'une offre d'un hotel
+/bookings : les réservations
+/bookings/H-1001-B-1001 : une réservation d'un hotel
+
+
+3) 
+GET /offers : récupérer toutes les offres (ou les offres filtrées) code 200, 400
+GET /offers/{id}: récupérer une offre code 200, 404
+GET /offers/{id}/picture : obtenir l'image de la chambre, code 200,304,404,406
+GET ...
+...
+POST /bookings : ajoute une réservation code 201, 400, 404,401,409, 415, 422
+...
+PUT|PATCH|DELETE /bookings/{ref} : Créée ou remplace|modifie|supprime la réservation. Code 201, 400, 401, 404, 409, 415
+...
+
+Se référerer à CM04 p24 pour savoir si sûre ou idempotent
+
+4) d'après le CM, toute représentation d'une ressource circule, donc les champs relatifs relatifs à la représentation d'une ressource circulent, le reste non.
+
+Champs offers hotel exposés:
+id, price, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, pictureLink, hotelName, available
+
+Champs offers agence exposés:
+id, finalPrice, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, hotelName, pictureLink, available
+
+Champs booking Hotel exposés:
+id, offerLink, price, nbPersons, firstName, lastName, state
+
+Champs booking Agence exposés:
+id, offerLink, finalPrice, nbPersons, firstName, lastName, state
+Elle stockera en interne : référence de l’hôtel, hôtel, prix final, clé d’idempotence
+
+Ce qui circule pas : le prix de base cote agence, la marge de l'agence, les secrets, ...
+
+5) Relations
+offre -> photo : par lien
+réservation → offre : par lien
+offre d’agence → hôtel d’origine : l’identité de l’offre est dans le chemin, le nom de l’hôtel est un champ
+réservation agence (H-1001-B-1001) → réservation hôtel (B-1001) : dans le chemin dans l'identifiant composé
+réservation hôtel → agence : via l'authentification
+
+Cest pas le fichier final mais le gros des décisions, à mieux rédiger pour le CR car c’est sur 2 points.

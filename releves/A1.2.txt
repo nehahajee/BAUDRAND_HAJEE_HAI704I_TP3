@@ -1,0 +1,3 @@
+POST /chercherOffres, POST /reserverChambre et POST /annulerReservation doit être remplacé par GET /offres, POST /reservations, DELETE /reservation/{ref}
+
+L'implémentation du camarade faire perdre le gain de http en passant de SOAP à HTTP. Toutes les requêtestes passent alors par POST sur des ressources différentes, alors qu'on peut garder une ressource et utiliser des requêtees différentes. Le POST est ni sûre ni idempotent, alors on perd à vouloir l'utiliser partout. AnnulerReserkation et chercherOffre doit être pouvoir rejoué sans risque, ce qui n'est pas le cas avec un POST. Un intermédiaire HTTP ne peux plus faire de query parameters. Réserver une chambre doit rester en POST
