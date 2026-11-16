@@ -1,0 +1,166 @@
+\documentclass[11pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\begin{document}
+
+% ====================================================================
+\begin{titlepage}
+  \centering
+  Université de Montpellier --- Faculté des Sciences\\
+  Master Informatique\\[2cm]
+
+  {\Large HAI704I --- Architectures logicielles distribuées}\\[1cm]
+  {\huge\bfseries TP 3 --- Services web REST}\\[2cm]
+
+  Enseignant responsable : Bachar Rima\\
+  Année universitaire 2026--2027\\
+  \today\\[2cm]
+
+  \begin{tabular}{llll}
+    \toprule
+    Nom & Prénom & N° étudiant & Parcours \\
+    \midrule
+    BAUDRAND & & & \\
+    HAJEE & Neha & & \\
+    \bottomrule
+  \end{tabular}
+\end{titlepage}
+
+\tableofcontents
+
+% ====================================================================
+\chapter{Introduction}
+\section{Rappel des objectifs du TP}
+\section{Topologie de l'application}
+\section{Dépôt Git et vidéo}
+
+% ====================================================================
+\chapter{A0 --- Consommer une API publique}
+\section{Géoplateforme de l'IGN}
+\section{Observer le protocole (GitHub, httpbingo)}
+\section{Le même échange dans Postman}
+
+% ====================================================================
+\chapter{A1 --- Conception : du besoin aux ressources}
+\section{Ressources identifiées}
+\section{URI des ressources et des collections}
+\section{Méthodes, sûreté, idempotence et codes de statut}
+\section{Représentations}
+\section{Relations entre ressources}
+\section{Ce qui n'est pas une ressource}
+\section{L'anti-modèle RPC argumenté}
+\section{Ce que l'implémentation a fait changer}
+
+% ====================================================================
+\chapter{A2 --- L'API de lecture de l'hôtel}
+\section{Recherche et consultation des offres}
+\section{Enveloppe de collection}
+\section{Séparation représentation / domaine / entité}
+\section{La photo de la chambre}
+\section{Validation}
+
+% ====================================================================
+\chapter{A3 --- Sémantique HTTP des erreurs}
+\section{Centralisation en problem+json}
+\section{Validation : 400 contre 422}
+\section{Justification de chaque code de statut}
+\section{L'en-tête Allow sur le 405}
+\section{Validation}
+
+% ====================================================================
+\chapter{A4 --- L'agence : un client REST explicite}
+\section{Projet et structure de l'agence}
+\section{RestClient et lecture des statuts et en-têtes}
+\section{Délais d'attente}
+\section{Traduction des échecs distants}
+\section{Séparation du transport et du métier}
+\section{Validation}
+
+% ====================================================================
+\chapter{A5 --- Réserver}
+\section{Création d'une réservation : 201 et Location}
+\section{Authentification de l'agence}
+\section{Offre déjà prise contre offre inexistante}
+\section{Idempotence : le rejeu sans doublon}
+\section{Concurrence : ETag et If-Match}
+\section{Annulation}
+\section{Validation}
+
+% ====================================================================
+\chapter{A6 --- Plusieurs hôtels et défaillance partielle}
+\section{Liste d'hôtels configurable}
+\section{Hôtel normal, lent et arrêté}
+\section{Résultat partiel et incidents nommés}
+\section{Refus métier contre défaillance}
+\section{Code rendu quand l'amont tombe}
+\section{Validation}
+
+% ====================================================================
+\chapter{A7 --- L'API de l'agence et le comparateur}
+\section{L'agence comme serveur}
+\section{Application de la marge}
+\section{Identifiants d'offre uniques}
+\section{Le comparateur : agrégation et classement}
+\section{Deux agences, deux prix}
+\section{Survie à une agence absente}
+\section{Validation}
+
+% ====================================================================
+\chapter{A8 --- Application utilisable et persistance}
+\section{De la mémoire à JPA/H2}
+\section{Coût du changement et place de la frontière}
+\section{Persistance après redémarrage}
+\section{L'interface en ligne de commande}
+\section{Tests automatisés}
+\section{Chaîne de bout en bout}
+
+% ====================================================================
+\chapter{Parties bonus}
+\section{B --- Base de données externe}
+\section{C --- OpenAPI}
+\section{D --- Cache et requêtes conditionnelles}
+\section{E --- Hypermédia}
+\section{F --- Interface graphique}
+
+% ====================================================================
+\chapter{Schémas}
+\section{Diagramme de déploiement (processus et ports)}
+\section{Diagramme de classes}
+\section{Diagramme de séquence d'une réservation}
+
+% ====================================================================
+\chapter{Relevés HTTP commentés}
+\section{Relevés de l'étape A0}
+\section{Relevés de l'étape A3}
+\section{Relevés de l'étape A5}
+
+% ====================================================================
+\chapter{Synthèse}
+\section{Ce qui fonctionne}
+\section{Ce qui ne fonctionne pas}
+\section{Difficultés rencontrées}
+
+% ====================================================================
+\chapter{Regard critique}
+
+% ====================================================================
+\chapter{Usage des outils d'intelligence artificielle générative}
+\section{Outils utilisés}
+\section{Tâches concernées}
+\section{Influence réelle sur le rendu}
+\section{Vérifications et corrections}
+\section{Ce qui est entièrement de nous}
+
+% ====================================================================
+\chapter*{Références}
+\addcontentsline{toc}{chapter}{Références}
+
+\end{document}
