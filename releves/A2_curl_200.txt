@@ -1,0 +1,6 @@
+HTTP/1.1 200 
+ETag: "5c58ca41debc23c02d6b0a796d41da48197113196da95c59168bb38c2a589f51"
+Content-Type: image/jpeg
+Content-Length: 119382
+Date: Fri, 20 Nov 2026 15:05:27 GMT
+
