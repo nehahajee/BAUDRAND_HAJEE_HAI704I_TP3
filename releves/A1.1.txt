@@ -50,10 +50,10 @@ Champs offers agence exposés:
 id, finalPrice, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, hotelName, pictureLink, available
 
 Champs booking Hotel exposés:
-id, offerLink, price, nbPersons, firstName, lastName, state
+id, offerId, price, nbPersons, firstName, lastName, state
 
 Champs booking Agence exposés:
-id, offerLink, finalPrice, nbPersons, firstName, lastName, state
+id, offerId, finalPrice, nbPersons, firstName, lastName, state
 Elle stockera en interne : référence de l’hôtel, hôtel, prix final, clé d’idempotence
 
 Ce qui circule pas : le prix de base cote agence, la marge de l'agence, les secrets, ...

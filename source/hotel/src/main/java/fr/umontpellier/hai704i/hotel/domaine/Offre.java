@@ -14,4 +14,8 @@ public record Offre(String id,
                     boolean available,
                     String pictureFile) {
 
+    public Offre reservee() {
+        return new Offre(id, price, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, false, pictureFile);
+    }
+
 }
