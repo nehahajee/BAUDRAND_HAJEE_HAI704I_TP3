@@ -66,7 +66,10 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         ProblemDetail pd;
         if(corps instanceof ProblemDetail) pd = (ProblemDetail) corps;
         else if (e instanceof ErrorResponse) pd = ((ErrorResponse) e).getBody();
-        else pd = ProblemDetail.forStatusAndDetail(statut, e.getMessage());
+        else{
+            pd = ProblemDetail.forStatusAndDetail(statut, e.getMessage());
+            pd.setType(URI.create("urn:hotel:erreur-serveur"));
+            pd.setTitle("Erreur serveur");}
 
         if (Objects.equals(pd.getType(), URI.create("about:blank"))
                 || Objects.equals(pd.getType(), null)) {
@@ -96,8 +99,6 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
             return super.handleExceptionInternal(e, pd, entetes, statut, requete);
         }
 
-        pd.setType(URI.create("urn:hotel:erreur-serveur"));
-        pd.setTitle("Erreur serveur");
         return super.handleExceptionInternal(e, pd, entetes, statut, requete);
     }
 }

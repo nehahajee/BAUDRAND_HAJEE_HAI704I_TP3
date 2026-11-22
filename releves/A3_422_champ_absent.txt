@@ -1,0 +1,22 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> POST /api/v1/bookings HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 60
+> 
+} [60 bytes data]
+* upload completely sent off: 60 bytes
+< HTTP/1.1 422 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Sun, 22 Nov 2026 16:52:56 GMT
+< 
+{ [175 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"nbPersons : le nombre de personnes est obligatoire","instance":"/api/v1/bookings","status":422,"title":"Demande invalide","type":"urn:hotel:demande-invalide"}

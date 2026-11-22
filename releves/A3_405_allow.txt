@@ -1,0 +1,20 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> DELETE /api/v1/offers HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 405 
+< Allow: GET
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Sun, 22 Nov 2026 16:52:58 GMT
+< 
+{ [184 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Method 'DELETE' is not supported.","instance":"/api/v1/offers","status":405,"title":"La méthode utilisée ici est non permise","type":"urn:hotel:methode-non-permise"}

@@ -1,0 +1,22 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> POST /api/v1/bookings HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 74
+> 
+} [74 bytes data]
+* upload completely sent off: 74 bytes
+< HTTP/1.1 409 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Sun, 22 Nov 2026 16:52:44 GMT
+< 
+{ [168 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Il n'y a pas assez de places disponibles","instance":"/api/v1/bookings","status":409,"title":"Conflit avec l'état courant","type":"urn:hotel:conflit"}
