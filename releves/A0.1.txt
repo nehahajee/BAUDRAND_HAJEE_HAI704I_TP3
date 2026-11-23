@@ -1,0 +1,12 @@
+1. Méthode : GET
+URI : https://data.geopf.fr/geocodage/search/?q=montpellier&limit=1
+Code statut : HTTP/2 200
+En-têtes : fate, content-type, content-lenght, ..., x-iplb-instance.
+Corps : {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[3.87048,43.610476]},"properties":{"label":"Montpellier","score":0.9615745454545455,"id":"34172","type":"municipality","name":"Montpellier","postcode":"34000","citycode":"34172","x":770293.65,"y":6279434.57,"population":310240,"city":"Montpellier","context":"34, Hérault, Occitanie","importance":0.57732,"depcode":"34","municipality":"Montpellier","_type":"address"}}],"query":"montpellier"}%   
+
+2. Accept entre l'envoie et la réception
+
+3. {"code":400,"message":"Failed parsing query","detail":["q: required param"]}
+On sait directement que q manque grâce au détail
+
+4. Le code passe de 200 à 304, donc d'un "ok" à "not modified". Le corps est devenu une ligne vide.
