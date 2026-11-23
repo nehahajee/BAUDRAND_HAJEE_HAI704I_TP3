@@ -1,0 +1,22 @@
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> POST /api/v1/bookings HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer s3cr3t-sud
+> Content-Length: 74
+> 
+} [74 bytes data]
+* upload completely sent off: 74 bytes
+< HTTP/1.1 404 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Mon, 23 Nov 2026 10:51:07 GMT
+< 
+{ [145 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"L'offre n'existe pas","instance":"/api/v1/bookings","status":404,"title":"Ressource introuvable","type":"urn:hotel:introuvable"}

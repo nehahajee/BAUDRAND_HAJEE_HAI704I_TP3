@@ -18,6 +18,6 @@ public class ConfigurationWeb implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registre) {
         registre.addInterceptor(authentification)
-                .addPathPatterns("/api/v1/bookings/**");   // /** couvre aussi /api/v1/bookings lui-même
+                .addPathPatterns("/api/v1/bookings/**");
     }
 }

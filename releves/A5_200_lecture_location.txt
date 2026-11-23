@@ -1,0 +1,21 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> GET /api/v1/bookings/B-1001 HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer s3cr3t-sud
+> 
+* Request completely sent off
+< HTTP/1.1 200 
+< Content-Type: application/json
+< Content-Length: 160
+< Date: Mon, 23 Nov 2026 10:48:58 GMT
+< 
+{ [160 bytes data]
+* Connection #0 to host localhost left intact
+{"id":"B-1001","offerLink":"http://localhost:8101/api/v1/offers/O-1001","price":89.00,"nbPersons":1,"firstName":"Alice","lastName":"Martin","state":"CONFIRMED"}
