@@ -35,4 +35,7 @@ public class ReservationController {
         return ResponseEntity.created(emplacement).body(vue);
 
     }
+
+    @GetMapping("/{id}")
+    public ReservationVue consulter(@PathVariable String id){return ReservationVue.depuis(serviceReservation.lireReservation(id), base());}
 }

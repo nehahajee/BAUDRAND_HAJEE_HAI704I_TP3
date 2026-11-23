@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 
 import fr.umontpellier.hai704i.hotel.service.Conflit;
+import fr.umontpellier.hai704i.hotel.service.NonAuthentifie;
 import fr.umontpellier.hai704i.hotel.service.PhotoIllisible;
 import org.springframework.http.*;
 import org.springframework.web.ErrorResponse;
@@ -41,6 +42,16 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         pd.setType(URI.create("urn:hotel:photo-illisible"));
         pd.setTitle("La photo est illisible");
         return pd;
+    }
+
+    @ExceptionHandler(NonAuthentifie.class)
+    public ResponseEntity<ProblemDetail> nonAuthentifie(NonAuthentifie e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:non-authentifie"));
+        pd.setTitle("Authentification requise");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .header(HttpHeaders.WWW_AUTHENTICATE, "Bearer realm=\"hotel\"")
+                .body(pd);
     }
 
     @Override
@@ -94,6 +105,10 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
                         pd.setType(URI.create("urn:hotel:type-non-supporte"));
                         pd.setTitle("Le type de contenu envoyé par le client n'est pas supporté");
                         break;
+                default:
+                    pd.setType(URI.create("urn:hotel:erreur-serveur"));
+                    pd.setTitle("Le serveur a rencontré une erreur");
+                    break;
                 }
 
             return super.handleExceptionInternal(e, pd, entetes, statut, requete);

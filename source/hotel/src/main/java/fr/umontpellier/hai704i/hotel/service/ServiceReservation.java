@@ -37,4 +37,12 @@ public class ServiceReservation {
         offreDepot.enregistrer(resa);
         return reservationDepot.enregistrer(new Reservation("B-"+idGenerator.getAndIncrement(), resa.id(), resa.price(), nbPersons, firstName, lastName, State.CONFIRMED));
     }
+
+    public Reservation lireReservation(String id){
+        Optional<Reservation> resa = reservationDepot.parId(id);
+        if(resa.isPresent()){
+            return resa.get();
+        }
+        throw new Introuvable("La reservation d'id "+ id + " n'existe pas");
+    }
 }
