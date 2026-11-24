@@ -8,5 +8,7 @@ public record Reservation(String id,
                           int nbPersons,
                           String firstName,
                           String lastName,
-                          State state) {
+                          State state,
+                          String agency,
+                          String idempotenceKey) {
 }

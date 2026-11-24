@@ -3,9 +3,7 @@ package fr.umontpellier.hai704i.hotel.api;
 import java.net.URI;
 import java.util.Objects;
 
-import fr.umontpellier.hai704i.hotel.service.Conflit;
-import fr.umontpellier.hai704i.hotel.service.NonAuthentifie;
-import fr.umontpellier.hai704i.hotel.service.PhotoIllisible;
+import fr.umontpellier.hai704i.hotel.service.*;
 import org.springframework.http.*;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import fr.umontpellier.hai704i.hotel.service.Introuvable;
 
 
 @RestControllerAdvice
@@ -52,6 +48,14 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.WWW_AUTHENTICATE, "Bearer realm=\"hotel\"")
                 .body(pd);
+    }
+
+    @ExceptionHandler(DemandeIncorrecte.class)
+    public ProblemDetail DemandeIncorrecte(DemandeIncorrecte e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setType(URI.create("urn:hotel:photo-illisible"));
+        pd.setTitle("La photo est illisible");
+        return pd;
     }
 
     @Override

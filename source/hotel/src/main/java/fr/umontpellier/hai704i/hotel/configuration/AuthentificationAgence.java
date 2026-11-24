@@ -33,7 +33,7 @@ public class AuthentificationAgence implements HandlerInterceptor {
             byte[] attendu = agence.getValue().getBytes(StandardCharsets.UTF_8);
             byte[] recu    = secret.getBytes(StandardCharsets.UTF_8);
             if (MessageDigest.isEqual(attendu, recu)) {
-                requete.setAttribute("agence", agence.getKey());   // on retient qui appelle
+                requete.setAttribute("agence", agence.getKey());
                 return true;
             }
         }

@@ -26,11 +26,19 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<ReservationVue> reserver(
-            @Valid @RequestBody DemandeReservation demande){
+            @Valid @RequestBody DemandeReservation demande,
+            @RequestHeader(name = "Idempotency-Key") String cle,@RequestAttribute("agence") String agence){
 
-        var reservation = serviceReservation.creerReservation(demande.offerId(), demande.nbPersons(), demande.firstName(), demande.lastName());
-        ReservationVue vue = ReservationVue.depuis(reservation, base());
-        URI emplacement = URI.create(base() + "/api/v1/bookings/" + reservation.id());
+        var reservation = serviceReservation.creerReservation(demande.offerId(), demande.nbPersons(), demande.firstName(), demande.lastName(), cle, agence);
+        ReservationVue vue = ReservationVue.depuis(reservation.reservation(), base());
+        URI emplacement = URI.create(base() + "/api/v1/bookings/" + reservation.reservation().id());
+
+        if (reservation.rejeu()) {
+            return ResponseEntity.ok()
+                    .location(emplacement)
+                    .header("Idempotent-Replay", "true")
+                    .body(vue);
+        }
 
         return ResponseEntity.created(emplacement).body(vue);
 
