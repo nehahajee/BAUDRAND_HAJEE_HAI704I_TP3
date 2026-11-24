@@ -9,6 +9,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
+import fr.umontpellier.hai704i.agence.domaine.Offre;
+import fr.umontpellier.hai704i.agence.service.Hotel;
 import fr.umontpellier.hai704i.agence.service.HotelIndisponible;
 import fr.umontpellier.hai704i.agence.service.Panne;
 import fr.umontpellier.hai704i.agence.service.RefusHotel;
@@ -23,7 +25,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @Component
-public class ClientHotel {
+public class ClientHotel implements Hotel {
     private final RestClient client;
     private final String base;
 
@@ -38,8 +40,9 @@ public class ClientHotel {
                 .build();
     }
 
-    public List<OffreHotelVue> chercher(String ville, LocalDate arrivee,
-                                        LocalDate depart, Integer personnes) {
+    @Override
+    public List<Offre> chercher(String ville, LocalDate arrivee,
+                                LocalDate depart, Integer personnes) {
         var reponse = appeler(() -> client.get()
                 .uri(u -> u.path("/api/v1/offers")
                         .queryParamIfPresent("city", Optional.ofNullable(ville))
@@ -54,10 +57,11 @@ public class ClientHotel {
             throw new HotelIndisponible(Panne.ERREUR_SERVEUR,
                     base + " a répondu " + reponse.getStatusCode().value() + " sans liste d'offres");
         }
-        return page.elements();
+        return page.elements().stream().map(ClientHotel::versDomaine).toList();
     }
 
-    public OffreHotelVue offre(String offerId) {
+    @Override
+    public Offre offre(String offerId) {
         var reponse = appeler(() -> client.get()
                 .uri("/api/v1/offers/{id}", offerId)
                 .retrieve()
@@ -67,7 +71,13 @@ public class ClientHotel {
             throw new HotelIndisponible(Panne.ERREUR_SERVEUR,
                     base + " a répondu " + reponse.getStatusCode().value() + " sans offre");
         }
-        return offre;
+        return versDomaine(offre);
+    }
+
+    /** Le JSON de l'hôtel devient une offre du domaine : seul le client connaît les deux. */
+    private static Offre versDomaine(OffreHotelVue v) {
+        return new Offre(v.id(), v.hotelName(), v.city(), v.price(), v.nbPersons(),
+                v.nbBeds(), v.breakfast(), v.arrivalDate(), v.departureDate());
     }
 
     private <T> T appeler(Supplier<T> appel) {
