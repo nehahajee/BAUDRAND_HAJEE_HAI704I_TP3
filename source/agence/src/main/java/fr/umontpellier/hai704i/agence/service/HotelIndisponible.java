@@ -1,5 +1,7 @@
 package fr.umontpellier.hai704i.agence.service;
 
+import fr.umontpellier.hai704i.agence.domaine.Panne;
+
 public class HotelIndisponible extends RuntimeException {
     private final Panne nature;
 

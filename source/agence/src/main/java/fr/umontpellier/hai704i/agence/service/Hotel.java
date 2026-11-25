@@ -14,6 +14,8 @@ import fr.umontpellier.hai704i.agence.domaine.Offre;
  */
 public interface Hotel {
 
+    String nom();
+
     List<Offre> chercher(String ville, LocalDate arrivee, LocalDate depart, Integer personnes);
 
     Offre offre(String offerId);

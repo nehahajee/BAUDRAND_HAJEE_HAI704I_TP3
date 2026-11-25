@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClientResponseException;
 import fr.umontpellier.hai704i.agence.domaine.Offre;
 import fr.umontpellier.hai704i.agence.service.Hotel;
 import fr.umontpellier.hai704i.agence.service.HotelIndisponible;
-import fr.umontpellier.hai704i.agence.service.Panne;
+import fr.umontpellier.hai704i.agence.domaine.Panne;
 import fr.umontpellier.hai704i.agence.service.RefusHotel;
 
 import java.net.SocketTimeoutException;
@@ -70,6 +70,11 @@ public class ClientHotel implements Hotel {
                     "nom: " + nom + "(" + base + "): " + " a répondu " + reponse.getStatusCode().value() + " sans offre");
         }
         return versDomaine(offre);
+    }
+
+    @Override
+    public String nom() {
+        return this.nom;
     }
 
     /** Le JSON de l'hôtel devient une offre du domaine : seul le client connaît les deux. */

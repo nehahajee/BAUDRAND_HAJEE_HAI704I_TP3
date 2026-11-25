@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import fr.umontpellier.hai704i.agence.service.HotelIndisponible;
-import fr.umontpellier.hai704i.agence.service.Panne;
+import fr.umontpellier.hai704i.agence.domaine.Panne;
 import fr.umontpellier.hai704i.agence.service.RefusHotel;
 
 /**

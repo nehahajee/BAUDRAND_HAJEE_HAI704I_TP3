@@ -1,7 +1,6 @@
 package fr.umontpellier.hai704i.agence.api;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.umontpellier.hai704i.agence.api.vue.OffreVue;
+import fr.umontpellier.hai704i.agence.api.vue.RechercheVue;
 import fr.umontpellier.hai704i.agence.service.ServiceAgence;
 
 /**
@@ -27,15 +27,13 @@ public class OffresController {
     }
 
     @GetMapping
-    public List<OffreVue> rechercher(
+    public RechercheVue rechercher(
             @RequestParam(required = false) String city,
             @RequestParam(required = false) LocalDate arrivalDate,
             @RequestParam(required = false) LocalDate departureDate,
             @RequestParam(required = false) Integer nbPersons) {
 
-        return service.rechercher(city, arrivalDate, departureDate, nbPersons).stream()
-                .map(OffreVue::depuis)
-                .toList();
+        return RechercheVue.depuis(service.rechercher(city, arrivalDate, departureDate, nbPersons));
     }
 
     @GetMapping("/{id}")

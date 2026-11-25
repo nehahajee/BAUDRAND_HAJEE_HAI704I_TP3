@@ -1,4 +1,4 @@
-package fr.umontpellier.hai704i.agence.service;
+package fr.umontpellier.hai704i.agence.domaine;
 
 public enum Panne {
     INJOIGNABLE,
