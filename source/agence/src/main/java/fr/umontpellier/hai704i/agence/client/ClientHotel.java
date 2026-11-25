@@ -1,10 +1,7 @@
 package fr.umontpellier.hai704i.agence.client;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.http.client.HttpClientSettings;
 import org.springframework.http.ProblemDetail;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
@@ -24,14 +21,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@Component
+
 public class ClientHotel implements Hotel {
     private final RestClient client;
+    private final String nom;
     private final String base;
 
-    ClientHotel(RestClient.Builder builder,
-                @Value("${agence.hotels[0].base}") String base,
-                @Value("${agence.delai}") Duration delai) {
+    public ClientHotel(RestClient.Builder builder,
+                String nom, String base, Duration delai) {
+        this.nom = nom;
         this.base = base;
         this.client = builder.clone()
                 .baseUrl(base)
@@ -54,8 +52,8 @@ public class ClientHotel implements Hotel {
                 .toEntity(PageOffresHotel.class));
         PageOffresHotel page = reponse.getBody();
         if (page == null || page.elements() == null) {
-            throw new HotelIndisponible(Panne.ERREUR_SERVEUR,
-                    base + " a répondu " + reponse.getStatusCode().value() + " sans liste d'offres");
+            throw new HotelIndisponible(Panne.ERREUR_SERVEUR, "nom: " + nom +
+                    "(" + base + "): " + " a répondu " + reponse.getStatusCode().value() + " sans liste d'offres");
         }
         return page.elements().stream().map(ClientHotel::versDomaine).toList();
     }
@@ -69,7 +67,7 @@ public class ClientHotel implements Hotel {
         OffreHotelVue offre = reponse.getBody();
         if (offre == null) {
             throw new HotelIndisponible(Panne.ERREUR_SERVEUR,
-                    base + " a répondu " + reponse.getStatusCode().value() + " sans offre");
+                    "nom: " + nom + "(" + base + "): " + " a répondu " + reponse.getStatusCode().value() + " sans offre");
         }
         return versDomaine(offre);
     }
@@ -88,14 +86,14 @@ public class ClientHotel implements Hotel {
                 throw new RefusHotel(detail(e));
             }
             throw new HotelIndisponible(Panne.ERREUR_SERVEUR,
-                    base + " a répondu " + e.getStatusCode().value() + " : " + detail(e));
+                    "nom: " + nom + "(" + base + "): " + " a répondu " + e.getStatusCode().value() + " : " + detail(e));
         } catch (ResourceAccessException e) {
             Throwable cause = e.getMostSpecificCause();
             boolean delai = !(cause instanceof HttpConnectTimeoutException)
                     && (cause instanceof SocketTimeoutException
                         || cause instanceof HttpTimeoutException);
             Panne nature = delai ? Panne.TROP_LENT : Panne.INJOIGNABLE;
-            throw new HotelIndisponible(nature, base + " : " + message(cause));
+            throw new HotelIndisponible(nature, "nom: " + nom +  "(" + base + "):" + message(cause) );
         }
     }
 
