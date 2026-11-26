@@ -3,8 +3,7 @@ package fr.umontpellier.hai704i.hotel.api;
 import java.net.URI;
 import java.util.Objects;
 
-import fr.umontpellier.hai704i.hotel.service.Conflit;
-import fr.umontpellier.hai704i.hotel.service.PhotoIllisible;
+import fr.umontpellier.hai704i.hotel.service.*;
 import org.springframework.http.*;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import fr.umontpellier.hai704i.hotel.service.Introuvable;
 
 
 @RestControllerAdvice
@@ -43,6 +40,24 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         return pd;
     }
 
+    @ExceptionHandler(NonAuthentifie.class)
+    public ResponseEntity<ProblemDetail> nonAuthentifie(NonAuthentifie e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:non-authentifie"));
+        pd.setTitle("Authentification requise");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .header(HttpHeaders.WWW_AUTHENTICATE, "Bearer realm=\"hotel\"")
+                .body(pd);
+    }
+
+    @ExceptionHandler(DemandeIncorrecte.class)
+    public ProblemDetail DemandeIncorrecte(DemandeIncorrecte e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setType(URI.create("urn:hotel:demande-incorrecte"));
+        pd.setTitle("La demande est incorrecte");
+        return pd;
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException e, HttpHeaders entetes,
@@ -57,6 +72,38 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         pd.setType(URI.create("urn:hotel:demande-invalide"));
         pd.setTitle("Demande invalide");
         return ResponseEntity.unprocessableEntity().body(pd);
+    }
+
+    @ExceptionHandler(PreconditionEchouee.class)
+    ProblemDetail precondition(PreconditionEchouee e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.PRECONDITION_FAILED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:precondition-echouee"));
+        pd.setTitle("Précondition non satisfaite");
+        return pd;
+    }
+
+    @ExceptionHandler(AccesInterdit.class)
+    ProblemDetail accesInterdit(AccesInterdit e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+        pd.setType(URI.create("urn:hotel:acces-interdit"));
+        pd.setTitle("Accès interdit");
+        return pd;
+    }
+
+    @ExceptionHandler(PreconditionManquante.class)
+    ProblemDetail preconditionManquante(PreconditionManquante e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.PRECONDITION_REQUIRED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:precondition-manquante"));
+        pd.setTitle("Précondition manquante");
+        return pd;
+    }
+
+    @ExceptionHandler(Exception.class)
+    ProblemDetail erreurInattendue(Exception e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Problème inattendue");
+        pd.setType(URI.create("urn:hotel:erreur-inattendue"));
+        pd.setTitle("Erreur inattendue");
+        return pd;
     }
 
     @Override
@@ -94,6 +141,10 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
                         pd.setType(URI.create("urn:hotel:type-non-supporte"));
                         pd.setTitle("Le type de contenu envoyé par le client n'est pas supporté");
                         break;
+                default:
+                    pd.setType(URI.create("urn:hotel:erreur-serveur"));
+                    pd.setTitle("Le serveur a rencontré une erreur");
+                    break;
                 }
 
             return super.handleExceptionInternal(e, pd, entetes, statut, requete);

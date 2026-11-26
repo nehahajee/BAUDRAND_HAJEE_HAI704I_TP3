@@ -1,0 +1,16 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> DELETE /api/v1/bookings/B-1001 HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Authorization: Bearer s3cr3t-sud
+> 
+* Request completely sent off
+< HTTP/1.1 204 
+< Date: Thu, 26 Nov 2026 18:36:23 GMT
+< 
+* Connection #0 to host localhost left intact

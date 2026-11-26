@@ -18,4 +18,8 @@ public record Offre(String id,
         return new Offre(id, price, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, false, pictureFile);
     }
 
+    public Offre liberee() {
+        return new Offre(id, price, nbPersons, city, nbBeds, breakfast, arrivalDate, departureDate, true, pictureFile);
+    }
+
 }

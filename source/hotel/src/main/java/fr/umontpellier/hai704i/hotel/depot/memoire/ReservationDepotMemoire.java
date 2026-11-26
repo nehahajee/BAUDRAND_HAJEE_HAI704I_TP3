@@ -30,4 +30,14 @@ public class ReservationDepotMemoire implements ReservationDepot {
         reservations.put(reservation.id(), reservation);
         return reservation;
     }
+
+    @Override
+    public Optional<Reservation> parCle(String agence, String cle) {
+        for (Reservation resa : reservations.values()){
+            if(cle.equals(resa.idempotenceKey()) && agence.equals(resa.agency())){
+                return Optional.of(resa);
+            }
+        }
+        return Optional.empty();
+    }
 }

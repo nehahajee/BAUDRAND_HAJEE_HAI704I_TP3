@@ -13,4 +13,6 @@ public interface ReservationDepot {
     Optional<Reservation> parId(String id);
 
     Reservation enregistrer(Reservation reservation);
+
+    Optional<Reservation> parCle(String agence, String cle);
 }

@@ -1,0 +1,26 @@
+Corps envoyé : {"firstName":"Alicia"}
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> PATCH /api/v1/bookings/B-1001 HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer s3cr3t-sud
+> If-Match: "1"
+> Content-Length: 22
+> 
+} [22 bytes data]
+* upload completely sent off: 22 bytes
+< HTTP/1.1 200 
+< ETag: "2"
+< Content-Type: application/json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 18:35:48 GMT
+< 
+{ [167 bytes data]
+* Connection #0 to host localhost left intact
+{"id":"B-1001","offerLink":"http://localhost:8101/api/v1/offers/O-1001","price":89.00,"nbPersons":1,"firstName":"Alicia","lastName":"Martin","state":"CONFIRMED"}

@@ -1,0 +1,25 @@
+Corps envoyé : {"offerId":"O-1002","nbPersons":1,"firstName":"Alice","lastName":"Martin"}
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> POST /api/v1/bookings HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer s3cr3t-sud
+> Idempotency-Key: K-1
+> Content-Length: 74
+> 
+} [74 bytes data]
+* upload completely sent off: 74 bytes
+< HTTP/1.1 409 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Tue, 24 Nov 2026 17:52:43 GMT
+< 
+{ [185 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Meme cle d'idempotence pour deux reservation différentes","instance":"/api/v1/bookings","status":409,"title":"Conflit avec l'état courant","type":"urn:hotel:conflit"}
