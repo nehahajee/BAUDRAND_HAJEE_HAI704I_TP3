@@ -1,0 +1,23 @@
+# A4 - Panne : hôtel arrêté (injoignable)
+# Hôtel   : antigone -> localhost:8103 (aucun processus sur ce port)
+# Agence lancée seule dans son processus (java -jar agence.jar), avec UN hôtel configuré (agence.hotels[0]), agence.delai=2s
+# Attendu : 502 problem+json, nature INJOIGNABLE, réponse immédiate, aucune trace d'exception côté agence
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8213/api/v1/offers/O-1001
+
+* Connected to localhost (::1) port 8213
+> GET /api/v1/offers/O-1001 HTTP/1.1
+> Host: localhost:8213
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 502 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 15:06:24 GMT
+< 
+{ [245 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Erreur de nature: INJOIGNABLE, nom: antigone(http://localhost:8103):Connection refused","instance":"/api/v1/offers/O-1001","status":502,"title":"Hôtel indisponible","type":"urn:agence:hotel-indisponible","nature":"INJOIGNABLE"}
+
+temps total : 0.063729s

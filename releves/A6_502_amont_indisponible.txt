@@ -1,0 +1,23 @@
+# A6.5 - Aucun hôtel n'a pu répondre (un lent, un arrêté)
+# Hôtels  : saint-roch -> localhost:8102 (lent, 5 s) ; antigone -> localhost:8103 (arrêté)
+# Agence  : localhost:8202, agence.delai=2s
+# Attendu : 502 Bad Gateway en problem+json : le problème est en amont, avec la liste des incidents
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8202/api/v1/offers
+
+* Connected to localhost (::1) port 8202
+> GET /api/v1/offers HTTP/1.1
+> Host: localhost:8202
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 502 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 14:58:38 GMT
+< 
+{ [466 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"aucun hotel n'a pu répondre.","instance":"/api/v1/offers","status":502,"title":"Aucun hôtel n'a pu répondre","type":"urn:agence:amont-indisponible","incidents":[{"hotel":"saint-roch","nature":"TROP_LENT","detail":"Erreur de nature: TROP_LENT, nom: saint-roch(http://localhost:8102):Request cancelled"},{"hotel":"antigone","nature":"INJOIGNABLE","detail":"Erreur de nature: INJOIGNABLE, nom: antigone(http://localhost:8103):Connection refused"}]}
+
+temps total : 2.100641s

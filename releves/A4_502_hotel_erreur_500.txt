@@ -1,0 +1,24 @@
+# A4 - Panne : l'hôtel répond 500
+# Hôtel   : comedie -> 127.0.0.1:8197 (serveur de test qui répond toujours 500 problem+json :
+#           l'hôtel du projet n'a pas encore d'option pour simuler une erreur 500)
+# Agence lancée seule dans son processus (java -jar agence.jar), avec UN hôtel configuré (agence.hotels[0]), agence.delai=2s
+# Attendu : 502 problem+json, nature ERREUR_SERVEUR, avec le detail renvoyé par l'hôtel
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8212/api/v1/offers/O-1001
+
+* Connected to localhost (::1) port 8212
+> GET /api/v1/offers/O-1001 HTTP/1.1
+> Host: localhost:8212
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 502 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 15:06:26 GMT
+< 
+{ [276 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Erreur de nature: ERREUR_SERVEUR, nom: comedie(http://127.0.0.1:8197):  a répondu 500 : base de donnees en panne","instance":"/api/v1/offers/O-1001","status":502,"title":"Hôtel indisponible","type":"urn:agence:hotel-indisponible","nature":"ERREUR_SERVEUR"}
+
+temps total : 0.112540s
