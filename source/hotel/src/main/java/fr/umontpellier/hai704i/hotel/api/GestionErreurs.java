@@ -53,8 +53,8 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DemandeIncorrecte.class)
     public ProblemDetail DemandeIncorrecte(DemandeIncorrecte e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-        pd.setType(URI.create("urn:hotel:photo-illisible"));
-        pd.setTitle("La photo est illisible");
+        pd.setType(URI.create("urn:hotel:demande-incorrecte"));
+        pd.setTitle("La demande est incorrecte");
         return pd;
     }
 
@@ -72,6 +72,38 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         pd.setType(URI.create("urn:hotel:demande-invalide"));
         pd.setTitle("Demande invalide");
         return ResponseEntity.unprocessableEntity().body(pd);
+    }
+
+    @ExceptionHandler(PreconditionEchouee.class)
+    ProblemDetail precondition(PreconditionEchouee e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.PRECONDITION_FAILED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:precondition-echouee"));
+        pd.setTitle("Précondition non satisfaite");
+        return pd;
+    }
+
+    @ExceptionHandler(AccesInterdit.class)
+    ProblemDetail accesInterdit(AccesInterdit e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+        pd.setType(URI.create("urn:hotel:acces-interdit"));
+        pd.setTitle("Accès interdit");
+        return pd;
+    }
+
+    @ExceptionHandler(PreconditionManquante.class)
+    ProblemDetail preconditionManquante(PreconditionManquante e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.PRECONDITION_REQUIRED, e.getMessage());
+        pd.setType(URI.create("urn:hotel:precondition-manquante"));
+        pd.setTitle("Précondition manquante");
+        return pd;
+    }
+
+    @ExceptionHandler(Exception.class)
+    ProblemDetail erreurInattendue(Exception e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Problème inattendue");
+        pd.setType(URI.create("urn:hotel:erreur-inattendue"));
+        pd.setTitle("Erreur inattendue");
+        return pd;
     }
 
     @Override
