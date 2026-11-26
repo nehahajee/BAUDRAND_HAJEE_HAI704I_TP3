@@ -2,6 +2,8 @@ package fr.umontpellier.hai704i.agence.api;
 
 import java.net.URI;
 
+import fr.umontpellier.hai704i.agence.api.vue.IncidentVue;
+import fr.umontpellier.hai704i.agence.service.AmontIndisponible;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,6 +39,19 @@ public class GestionErreurs extends ResponseEntityExceptionHandler {
         pd.setType(URI.create("urn:agence:hotel-indisponible"));
         pd.setTitle("Hôtel indisponible");
         pd.setProperty("nature", e.getNature());
+        return pd;
+    }
+
+    /** Aucun hôtel n'a répondu: 504 s'ils sont tous trop lents, 502 sinon*/
+    @ExceptionHandler(AmontIndisponible.class)
+    ProblemDetail amontIndisponible(AmontIndisponible e) {
+        boolean tousTropLents = e.getIncidents().stream().allMatch(i -> i.nature() == Panne.TROP_LENT);
+        HttpStatus statut = tousTropLents ? HttpStatus.GATEWAY_TIMEOUT :
+                HttpStatus.BAD_GATEWAY;
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(statut, e.getMessage());
+        pd.setType(URI.create("urn:agence:amont-indisponible"));
+        pd.setTitle("Aucun hôtel n'a pu répondre");
+        pd.setProperty("incidents", e.getIncidents().stream().map(IncidentVue::depuis).toList());
         return pd;
     }
 }

@@ -38,6 +38,9 @@ public class ServiceAgence {
                 incidents.add(new Incident(hotel.nom(), e.getNature(), e.getMessage()));
             }
         }
+        if (!hotels.isEmpty() && incidents.size() == hotels.size()) {
+            throw new AmontIndisponible(incidents);
+        }
         return new ResultatRecherche(offres, incidents);
     }
 
