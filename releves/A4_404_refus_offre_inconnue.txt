@@ -1,0 +1,23 @@
+# A4 - Refus métier : l'hôtel a répondu, et il refuse (offre inconnue)
+# Hôtel   : peyrou -> localhost:8101 (normal) ; l'hôtel répond 404 problem+json
+# Agence lancée seule dans son processus (java -jar agence.jar), avec UN hôtel configuré (agence.hotels[0]), agence.delai=2s
+# Attendu : 404 problem+json, avec le detail renvoyé par l'hôtel : un refus, pas une panne
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8201/api/v1/offers/O-9999
+
+* Connected to localhost (::1) port 8201
+> GET /api/v1/offers/O-9999 HTTP/1.1
+> Host: localhost:8201
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 404 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 15:06:24 GMT
+< 
+{ [161 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Aucune offre d'identifiant O-9999.","instance":"/api/v1/offers/O-9999","status":404,"title":"Refus de l'hôtel","type":"urn:agence:refus-hotel"}
+
+temps total : 0.017174s

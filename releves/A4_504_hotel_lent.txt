@@ -1,0 +1,23 @@
+# A4 - Panne : hôtel lent (au-delà du délai d'attente)
+# Hôtel   : saint-roch -> localhost:8102 (--hotel.latence=5s)
+# Agence lancée seule dans son processus (java -jar agence.jar), avec UN hôtel configuré (agence.hotels[0]), agence.delai=2s
+# Attendu : 504 problem+json, nature TROP_LENT, coupé au bout de ~2 s (délai de l'agence) et non 5 s
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8211/api/v1/offers/O-1001
+
+* Connected to localhost (::1) port 8211
+> GET /api/v1/offers/O-1001 HTTP/1.1
+> Host: localhost:8211
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 504 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 15:06:26 GMT
+< 
+{ [242 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Erreur de nature: TROP_LENT, nom: saint-roch(http://localhost:8102):Request cancelled","instance":"/api/v1/offers/O-1001","status":504,"title":"Hôtel indisponible","type":"urn:agence:hotel-indisponible","nature":"TROP_LENT"}
+
+temps total : 2.089436s

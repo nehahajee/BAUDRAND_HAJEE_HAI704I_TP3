@@ -1,0 +1,24 @@
+# A6.5 - Aucun hôtel n'a pu répondre, et tous sont trop lents
+# Hôtels  : saint-roch -> localhost:8102 (lent, 5 s) ; comedie -> localhost:8104 (lent, 5 s)
+# Agence  : localhost:8203, agence.delai=2s
+# Attendu : 504 Gateway Timeout en problem+json, avec la liste des incidents
+# Remarque : ~4 s, car les hôtels sont interrogés l'un après l'autre (2 s + 2 s)
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8203/api/v1/offers
+
+* Connected to localhost (::1) port 8203
+> GET /api/v1/offers HTTP/1.1
+> Host: localhost:8203
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 504 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 14:58:44 GMT
+< 
+{ [459 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"aucun hotel n'a pu répondre.","instance":"/api/v1/offers","status":504,"title":"Aucun hôtel n'a pu répondre","type":"urn:agence:amont-indisponible","incidents":[{"hotel":"saint-roch","nature":"TROP_LENT","detail":"Erreur de nature: TROP_LENT, nom: saint-roch(http://localhost:8102):Request cancelled"},{"hotel":"comedie","nature":"TROP_LENT","detail":"Erreur de nature: TROP_LENT, nom: comedie(http://localhost:8104):Request cancelled"}]}
+
+temps total : 4.103944s

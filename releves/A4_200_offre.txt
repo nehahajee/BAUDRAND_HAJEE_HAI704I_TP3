@@ -1,0 +1,23 @@
+# A4 - Succès : consultation d'une offre par son identifiant
+# Hôtel   : peyrou -> localhost:8101 (normal)
+# Agence lancée seule dans son processus (java -jar agence.jar), avec UN hôtel configuré (agence.hotels[0]), agence.delai=2s
+# Attendu : 200 et l'offre O-1001
+
+$ curl -v -w 'temps total : %{time_total}s' http://localhost:8201/api/v1/offers/O-1001
+
+* Connected to localhost (::1) port 8201
+> GET /api/v1/offers/O-1001 HTTP/1.1
+> Host: localhost:8201
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+< HTTP/1.1 200 
+< Content-Type: application/json
+< Content-Length: 178
+< Date: Thu, 26 Nov 2026 15:06:23 GMT
+< 
+{ [178 bytes data]
+* Connection #0 to host localhost left intact
+{"id":"O-1001","hotelName":"Hotel du Peyrou","city":"Montpellier","price":89.00,"nbPersons":2,"nbBeds":1,"breakfast":true,"arrivalDate":"2026-12-12","departureDate":"2026-12-14"}
+
+temps total : 0.006391s

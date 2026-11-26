@@ -1,0 +1,11 @@
+# A4 - Console des agences pendant les scénarios ci-dessus
+# Attendu : aucune trace d'exception brute (pas de 'Exception', pas de lignes 'at ...')
+
+$ grep -cE 'Exception|^\s+at ' agence-8201.log
+0
+$ grep -cE 'Exception|^\s+at ' agence-8211.log
+0
+$ grep -cE 'Exception|^\s+at ' agence-8212.log
+0
+$ grep -cE 'Exception|^\s+at ' agence-8213.log
+0
