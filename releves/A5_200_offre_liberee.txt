@@ -1,0 +1,19 @@
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> GET /api/v1/offers/O-1001 HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 
+< Content-Type: application/json
+< Content-Length: 262
+< Date: Thu, 26 Nov 2026 18:36:40 GMT
+< 
+{ [262 bytes data]
+* Connection #0 to host localhost left intact
+{"id":"O-1001","price":89.00,"nbPersons":2,"city":"Montpellier","nbBeds":1,"breakfast":true,"arrivalDate":"2026-12-12","departureDate":"2026-12-14","available":true,"hotelName":"Hotel du Peyrou","pictureLink":"http://localhost:8101/api/v1/offers/O-1001/picture"}

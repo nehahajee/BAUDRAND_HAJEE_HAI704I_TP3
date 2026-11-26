@@ -1,0 +1,25 @@
+Corps envoyé : {"firstName":"Pirate"}
+* Host localhost:8101 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8101...
+* Connected to localhost (::1) port 8101
+> PATCH /api/v1/bookings/B-1001 HTTP/1.1
+> Host: localhost:8101
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer s3cr3t-nord
+> If-Match: "2"
+> Content-Length: 22
+> 
+} [22 bytes data]
+* upload completely sent off: 22 bytes
+< HTTP/1.1 403 
+< Content-Type: application/problem+json
+< Transfer-Encoding: chunked
+< Date: Thu, 26 Nov 2026 18:36:09 GMT
+< 
+{ [188 bytes data]
+* Connection #0 to host localhost left intact
+{"detail":"Une agence essaye d'accéder à une reservation d'une autre","instance":"/api/v1/bookings/B-1001","status":403,"title":"Accès interdit","type":"urn:hotel:acces-interdit"}
