@@ -7,16 +7,13 @@ import fr.umontpellier.hai704i.hotel.domaine.Reservation;
 import fr.umontpellier.hai704i.hotel.domaine.State;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ServiceReservation {
 
     private final ReservationDepot reservationDepot;
     private final OffreDepot offreDepot;
-    private AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public ServiceReservation(ReservationDepot reservationDepot, OffreDepot offreDepot) {
         this.reservationDepot = reservationDepot;
@@ -48,7 +45,7 @@ public class ServiceReservation {
 
         Offre offreResa = offre.get().reservee();
         offreDepot.enregistrer(offreResa);
-        Reservation cree = reservationDepot.enregistrer((new Reservation("B-"+idGenerator.getAndIncrement(),
+        Reservation cree = reservationDepot.enregistrer((new Reservation(reservationDepot.prochainId(),
                 offreResa.id(), offreResa.price(), nbPersons, firstName, lastName,
                 State.CONFIRMED, agence, cleIdempotence, 1)));
         return new Creation(cree, false);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import fr.umontpellier.hai704i.hotel.depot.OffreDepot;
 import fr.umontpellier.hai704i.hotel.domaine.Offre;
 
-
+@Profile("memoire")
 @Repository
 public class OffreDepotMemoire implements OffreDepot {
 

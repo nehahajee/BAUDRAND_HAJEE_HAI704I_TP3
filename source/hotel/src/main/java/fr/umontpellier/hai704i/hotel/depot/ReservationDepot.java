@@ -15,4 +15,6 @@ public interface ReservationDepot {
     Reservation enregistrer(Reservation reservation);
 
     Optional<Reservation> parCle(String agence, String cle);
+
+    String prochainId();
 }
